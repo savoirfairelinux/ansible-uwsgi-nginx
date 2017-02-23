@@ -1,0 +1,35 @@
+## global variables ###########################################################
+
+# absolute path where to create the .sock file
+uwsgi_app_socket_path: ''
+
+# permissions over the socket file
+uwsgi_app_socket_chmod: 770
+uwsgi_app_socket_user: www-data
+uwsgi_app_socket_group: www-data
+
+# number of parallel processes
+uwsgi_app_process_number: 3
+
+# number of requests done to trigger process restart
+uwsgi_app_process_requests_max: 1000
+
+# directory under the app will run
+uwsgi_app_chdir: ''
+
+# uwsgi plugin name required by app
+uwsgi_app_plugin: ''
+
+# app will be executed as
+uwsgi_app_exec_user: www-data
+uwsgi_app_exec_group: www-data
+
+# the name of app (ex: log file name, etc ..)
+uwsgi_app_name: ''
+
+
+## rack-ruby2.3 plugin variables ##############################################
+
+uwsgi_app_plugin_rack_ruby23_rails_path: .
+uwsgi_app_plugin_rack_ruby23_rack_file: config.ru
+uwsgi_app_plugin_rack_ruby23_env: production
