@@ -1,7 +1,7 @@
 uWSGI Ansible Role
 ==================
 
-This Ansible role will install uWSGI as needed from official repositories, manage apps with theirs UNIX sockets + ensure that required plugins are installed.
+This Ansible role will install uWSGI as needed from official repositories, create NGINX virtual host, manage apps with theirs UNIX sockets + ensure that required plugins are installed.
 
 
 Requirements
@@ -11,6 +11,7 @@ Requirements
 * One of these target systems:
     * Debian Jessie & Stretch
     * Ubuntu 16.04
+* [Nginx Ansible role][ansible-nginx]
 
 
 Supported plugins
@@ -33,12 +34,28 @@ Usage example
 This is a simple example of how to make a Rails app works. For other languages/frameworks, or extra parameters, read [default variables](defaults/main.yml) for further details.
 
 ```yaml
-- role: uwsgi-app
-  uwsgi_app_name: redmine
-  uwsgi_app_socket_path: /var/run/redmine.sock
-  uwsgi_app_chdir: /usr/share/redmine/
-  uwsgi_app_plugin: rack-ruby2.3
-  uwsgi_app_plugin_rack_ruby23_env: production
+- role: uwsgi-nginx
+  app_name: example.org
+  app_uwsgi_chdir: /usr/share/redmine/
+  app_uwsgi_exec_user: redmine
+  app_uwsgi_exec_group: redmine
+  app_nginx_ssl_only: true
+  app_nginx_ssl_spdy_enabled: true
+  app_nginx_limitreq_enabled: true
+  app_nginx_limitreq_per_second: 10
+  app_nginx_static_cache_assets_enabled: true
+  app_nginx_static_cache_assets_expire_hours: 48
+  app_nginx_static_root: /usr/share/redmine/public/
+  app_nginx_static_paths:
+    - /favicon.ico
+    - /stylesheets/
+    - /javascripts/
+    - /images/
+    - /plugin_assets/
+    - /help/
+    - /themes/
+  app_uwsgi_plugin: rack-ruby2.3
+  app_uwsgi_plugin_rack_ruby23_env: production
 ```
 
 Simple as that.
@@ -102,17 +119,15 @@ If for example you want to implements `rack-ruby2.3`, you will need to add in in
 
 Search over the uWSGI documentation in order to find app parameters for the `.ini` file matching the plugins that you want to implements.
 
-Then, create a file with the name of identifier in the directory `./templates/plugins/` of this role. For V8, it would be named `rack-ruby2.3.ini.j2`.
+Then, create a file with the name of identifier in the directory `./templates/uwsgi_plugins/` of this role. For V8, it would be named `rack-ruby2.3.ini.j2`.
 
-Once file created, fill it with plugin's required variables, the Ansible variables need to be prefixed with `uwsgi_app_plugin_rack_ruby23_`.
-
-Note that `rack-ruby2.3` became `rack_ruby23` for example purposes : In your case, take the plugin indentifier, remove the dots (if there's any) and replace dashes with underscores.
+Once file created, fill it with plugin's required variables, the Ansible variables need to be prefixed with `app_uwsgi_plugin_rack_ruby23_`. Note that `rack-ruby2.3` became `rack_ruby23` for example purposes : In your case, take the plugin indentifier, remove the dots (if there's any) and replace dashes with underscores.
 
 Please be the more generic possible so the role will be useable in the most possible cases.
 
 ### Step 3 : Update the defaults
 
-Open the `./defaults/main.yml` file, add a section in the same format of what's thats already there, and fill it with your Ansible variables that are prefixed with `uwsgi_app_plugin_rack_ruby23_` (do not forget to replace `rack_ruby23` with your own modified plugin identifier).
+Open the `./defaults/main.yml` file, add a section in the same format of what's thats already there, and fill it with your Ansible variables that are prefixed with `app_uwsgi_plugin_rack_ruby23_` (do not forget to replace `rack_ruby23` with your own modified plugin identifier).
 
 ### Step 4 : Test it
 
@@ -129,8 +144,11 @@ Conclusion
 We absolutely appreciate patches, feel free to contribute directly on the GitHub project.
 
 Repositories / Development website / Bug Tracker:
-- https://github.com/savoirfairelinux/ansible-uwsgi-app.git
+- https://github.com/savoirfairelinux/ansible-uwsgi-nginx.git
 
 Do not hesitate to join us and post comments, suggestions, questions and general feedback directly on the issues tracker.
 
 **Website :** https://www.savoirfairelinux.com/
+
+
+[ansible-nginx]: https://github.com/savoirfairelinux/ansible-nginx

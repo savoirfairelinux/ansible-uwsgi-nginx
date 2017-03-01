@@ -1,0 +1,5 @@
+---
+- name: Generating app socket path
+  set_fact:
+    app_socket_path: "{{ (app_socket_root + '/' + app_name + '.sock')|replace('//', '/') }}"
+    app_uwsgi_pidfile: "{{ (app_socket_root + '/' + app_name + '.pid')|replace('//', '/') }}"

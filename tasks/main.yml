@@ -1,17 +1,6 @@
 ---
-- name: Ensure service present
-  apt:
-    name: uwsgi
-    state: present
+- include: tasks/global.yml
 
-- name: Ensure plugin present
-  apt:
-    name: "uwsgi-plugin-{{ uwsgi_app_plugin }}"
-    state: present
+- include: tasks/uwsgi.yml
 
-- name: Ensure app config present
-  template:
-    src: templates/app.ini.j2
-    dest: "/etc/uwsgi/apps-enabled/{{ uwsgi_app_name }}.ini"
-  notify:
-     - reload uwsgi
+- include: tasks/nginx.yml
