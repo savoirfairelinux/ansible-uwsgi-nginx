@@ -1,6 +1,6 @@
 ---
 - name: Check if SSL config is there
-  stat: path="/etc/nginx/snippets/{{ app_name }}.ssl.conf"
+  stat: path="/etc/nginx/snippets/{{ app_nginx_ssl_snippet }}.ssl.conf"
   register: app_nginx_ssl_config_file
 
 - name: Check if acme_well_known config is there
