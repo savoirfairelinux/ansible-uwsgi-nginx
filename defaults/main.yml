@@ -1,0 +1,74 @@
+## global variables ###########################################################
+
+# the name of app (ex: vhostname, log file name, socket name, etc ..)
+app_name: 'example.org'
+
+# the place where to store socket files
+app_socket_root: /var/run/uwsgi/
+
+
+## uwsgi variables ############################################################
+
+# permissions over the socket file
+app_uwsgi_socket_chmod: 770
+app_uwsgi_socket_user: www-data
+app_uwsgi_socket_group: www-data
+
+# number of parallel processes
+app_uwsgi_process_number: 3
+
+# number of requests done to trigger process restart
+app_uwsgi_process_requests_max: 1000
+
+# directory under the app will run
+app_uwsgi_chdir: ''
+
+# uwsgi plugin name required by app
+app_uwsgi_plugin: ''
+
+# app will be executed as
+app_uwsgi_exec_user: www-data
+app_uwsgi_exec_group: www-data
+
+
+## nginx variables ############################################################
+
+# nginx extra config inside dynamic uwsgi config
+app_nginx_extra_conf: ''
+
+# path where to get static files (assets and uploads)
+app_nginx_static_root: ''
+
+# over SSL, serve all resources within the same TCP connection
+app_nginx_ssl_spdy_enabled: true
+
+# the name of SSL snippet (swap the asterisk) : /etc/nginx/snippets/*.ssl.conf
+app_nginx_ssl_snippet: ''
+
+# if the served assets must be cached by clients
+app_nginx_static_cache_assets_enabled: false
+
+# number of hours before expiration of static files uploaded to client
+app_nginx_static_cache_assets_expire_hours: 0
+
+# root paths of static assets 'must always be prefixed with '/'
+app_nginx_static_paths: []
+
+# if gzip compression must be enabled for static asset files
+app_nginx_gzip_enabled: true
+
+# gzip compression level of static assets files (from 1 to 9)
+app_nginx_gzip_compression_level: 6
+
+# if nginx requests per second limit must be enabled (outer static assets)
+app_nginx_limitreq_enabled: false
+
+# the maximum requests per second per client IP address to throw HTTP error
+app_nginx_limitreq_per_second: 10
+
+
+## rack-ruby2.3 plugin variables ##############################################
+
+app_uwsgi_plugin_rack_ruby23_rails_path: .
+app_uwsgi_plugin_rack_ruby23_rack_file: config.ru
+app_uwsgi_plugin_rack_ruby23_env: production

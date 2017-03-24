@@ -1,0 +1,17 @@
+---
+- name: Ensure uWSGI service present
+  apt:
+    name: uwsgi
+    state: present
+
+- name: Ensure app uWSGI plugin present
+  apt:
+    name: "uwsgi-plugin-{{ app_uwsgi_plugin }}"
+    state: present
+
+- name: Ensure app uWSGI config present
+  template:
+    src: templates/uwsgi_app.ini.j2
+    dest: "/etc/uwsgi/apps-enabled/{{ app_name }}.ini"
+  notify:
+     - uwsgi restart

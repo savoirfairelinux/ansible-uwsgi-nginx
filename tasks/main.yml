@@ -1,0 +1,6 @@
+---
+- include: tasks/global.yml
+
+- include: tasks/uwsgi.yml
+
+- include: tasks/nginx.yml
