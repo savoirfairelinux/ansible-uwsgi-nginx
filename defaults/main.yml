@@ -72,3 +72,13 @@ app_nginx_limitreq_per_second: 10
 app_uwsgi_plugin_rack_ruby23_rails_path: .
 app_uwsgi_plugin_rack_ruby23_rack_file: config.ru
 app_uwsgi_plugin_rack_ruby23_env: production
+
+
+## python plugin variables ####################################################
+
+app_uwsgi_plugin_python_venv_path: ''
+
+
+## python3 plugin variables ####################################################
+
+app_uwsgi_plugin_python3_venv_path: ''

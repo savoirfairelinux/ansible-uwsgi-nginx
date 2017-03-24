@@ -26,6 +26,8 @@ Do not worry, this should be an easy step. See the "Contribution procedure" sect
 There's a list of supported plugins for the moment :
 
 - Rack Ruby 2.3 (`rack-ruby2.3`)
+- Python 2 (`python`)
+- Python 3 (`python3`)
 
 
 Usage example
