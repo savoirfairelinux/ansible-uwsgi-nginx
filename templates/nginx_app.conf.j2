@@ -16,7 +16,7 @@ server {
     {% endif %}
 
     {% if app_nginx_ssl_acme_well_known_config_file.stat.exists -%}
-    include snippets/acme_well_known.conf;
+    include {{ app_nginx_ssl_acme_well_known_config_file }};
     {% endif %}
 
     {% for path in app_nginx_static_paths %}
