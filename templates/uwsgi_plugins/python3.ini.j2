@@ -1,3 +1,7 @@
 module = wsgi:application
 wsgi-file = wsgi.py
 home = {{ app_uwsgi_plugin_python3_venv_path }}
+
+{% for key, value in app_uwsgi_plugin_python3_env_vars.items() %}
+env = {{ key }}={{ value }}
+{% endfor %}

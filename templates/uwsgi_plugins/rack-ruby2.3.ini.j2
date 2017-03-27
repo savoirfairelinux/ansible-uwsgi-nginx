@@ -1,3 +1,7 @@
 rails = {{ app_uwsgi_plugin_rack_ruby23_rails_path }}
 rack = {{ app_uwsgi_plugin_rack_ruby23_rack_file }}
 env = RAILS_ENV={{ app_uwsgi_plugin_rack_ruby23_env }}
+
+{% for key, value in app_uwsgi_plugin_rack_ruby23_env_vars.items() %}
+env = {{ key }}={{ value }}
+{% endfor %}
