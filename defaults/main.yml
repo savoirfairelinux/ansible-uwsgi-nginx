@@ -39,11 +39,20 @@ app_nginx_extra_conf: ''
 # path where to get static files (assets and uploads)
 app_nginx_static_root: ''
 
+# is ssl enabled
+app_nginx_ssl_enabled: false
+
+# is SSL only
+app_nginx_ssl_only: false
+
 # over SSL, serve all resources within the same TCP connection
 app_nginx_ssl_spdy_enabled: true
 
-# the name of SSL snippet (swap the asterisk) : /etc/nginx/snippets/*.ssl.conf
-app_nginx_ssl_snippet: ''
+# path of public ssl cert
+app_nginx_ssl_cert_path: ''
+
+# path of priv ssl key
+app_nginx_ssl_priv_path: ''
 
 # if the served assets must be cached by clients
 app_nginx_static_cache_assets_enabled: false

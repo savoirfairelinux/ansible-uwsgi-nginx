@@ -2,21 +2,27 @@
 limit_req_zone  $binary_remote_addr  zone={{ app_name }}:10m  rate=1r/s;
 {% endif %}
 
+{% if app_nginx_ssl_enabled and app_nginx_ssl_only -%}
 server {
-    {% if not app_nginx_ssl_only|default(False) -%}
-    listen 80;
-    {% endif %}
-    listen 443 ssl {% if app_nginx_ssl_spdy_enabled %}http2{% endif %};
+    server_name {{ app_name }};
+    listen 80; listen [::]:80;
+    return 301 https://$server_name$request_uri;
+}
+{% endif -%}
+
+server {
     server_name {{ app_name }};
 
-    {% if app_nginx_ssl_config_file.stat.exists -%}
-    include {{ app_nginx_ssl_config_file.stat.path }};
-    {% else %}
-    include snippets/snakeoil.conf;
+    {% if not app_nginx_ssl_only %}
+    listen 80; listen [::]:80;
     {% endif %}
 
-    {% if app_nginx_ssl_acme_well_known_config_file.stat.exists -%}
-    include {{ app_nginx_ssl_acme_well_known_config_file.stat.path }};
+    {% if app_nginx_ssl_enabled -%}
+    listen 443 ssl {% if app_nginx_ssl_spdy_enabled %}http2{% endif %};
+    listen [::]:443 ssl {% if app_nginx_ssl_spdy_enabled %}http2{% endif %};
+
+    ssl_certificate {{ app_nginx_ssl_cert_path }};
+    ssl_certificate_key {{ app_nginx_ssl_priv_path }};
     {% endif %}
 
     {% for path in app_nginx_static_paths %}
