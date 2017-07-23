@@ -1,5 +1,5 @@
-uWSGI Ansible Role
-==================
+uWSGI Nginx Ansible Role
+========================
 
 This Ansible role will install uWSGI as needed from official repositories, create NGINX virtual host, manage apps with theirs UNIX sockets + ensure that required plugins are installed.
 
